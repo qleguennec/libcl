@@ -6,12 +6,13 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 22:17:19 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/12/03 01:14:36 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/12/03 03:44:48 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libcl.h"
 #include "../libft/libft.h"
+#include "../libgnl/libgnl.h"
 #include <unistd.h>
 
 cl_kernel
@@ -21,12 +22,15 @@ cl_krl_build
 	 , char *krlname
 	 , size_t alloc_size)
 {
-	char		buffer[CL_BUFSIZ + 1];
+	t_vect		buf;
+	t_vect		line;
+	t_vect		lines;
 	cl_kernel	krl;
-	size_t		i;
 
-	i = read(fd, buffer, CL_BUFSIZ);
-	buffer[i] = '\0';
+	vect_init(&buf);
+	vect_init(&line);
+	vect_init(&lines);
+	while (get_next_line())
 	cl->prog = clCreateProgramWithSource(cl->ctxt, 1
 		, (const char **)&buffer, NULL, NULL);
 	if (!clBuildProgram(cl->prog, cl->dev_num, &cl->dev_id, NULL, NULL, NULL))
