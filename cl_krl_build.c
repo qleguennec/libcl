@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cl_prg_read.c                                      :+:      :+:    :+:   */
+/*   cl_krl_build.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 22:17:19 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/12/02 23:17:08 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/12/03 00:33:57 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libcl.h"
 #include "../libft/libft.h"
-#include <fcntl.h>
 #include <unistd.h>
 
 cl_kernel
-cl_prg_read
+cl_krl_build
 	(t_cl_info *cl
-	 , char *prgname
-	 , char *krlname)
+	 , int fd
+	 , char *krlname
+	 , size_t alloc_size)
 {
-	char	buffer[CL_BUFSIZ + 1];
-	int		fd;
-	size_t	i;
+	char		buffer[CL_BUFSIZ + 1];
+	cl_kernel	krl;
+	size_t		i;
 
-	if ((fd = open(prgname, O_RDONLY)) == -1)
-		return (NULL);
 	i = read(fd, buffer, CL_BUFSIZ);
-	close(fd);
 	buffer[i] = '\0';
 	cl->prog = clCreateProgramWithSource(cl->ctxt, 1
 		, (const char **)&buffer, NULL, NULL);
@@ -39,5 +36,8 @@ cl_prg_read
 		write(1, buffer, ft_strlen(buffer));
 		return (NULL);
 	}
-	return (clCreateKernel(cl->prog, krlname, NULL));
+	if (!(krl = clCreateKernel(cl->prog, krlname, NULL)))
+		return (NULL);
+	cl->mem = clCreateBuffer(cl->ctxt, 0, alloc_size, NULL, NULL);
+	return (krl);
 }
