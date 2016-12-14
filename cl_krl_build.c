@@ -6,12 +6,13 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 22:17:19 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/12/09 16:10:22 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/12/14 16:15:01 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libcl.h"
 #include "../libft/libft.h"
+#include "../libft/malloc.h"
 #define GNL_BUFSIZ 80
 #include "../libgnl/libgnl.h"
 #include <unistd.h>
@@ -19,15 +20,30 @@
 
 #define LOG_BUFSIZ 20480
 
-cl_kernel
+static void
+	cl_krl_setargs
+	(cl_context ctxt
+	, t_cl_krl *krl)
+{
+	size_t		i;
+
+	i = 0;
+	while (i < krl->nargs)
+	{
+		krl->args[i] = clCreateBuffer(ctxt, 0, krl->sizes[i], NULL, NULL);
+		CL_KRL_ARG(krl->krl, i, krl->args[i]);
+		i++;
+	}
+}
+
+int
 	cl_krl_build
 	(t_cl_info *cl
+	, t_cl_krl *krl
 	, int fd
-	, char *krlname
-	, size_t alloc_size)
+	, char *krlname)
 {
 	char		buffer[LOG_BUFSIZ];
-	cl_kernel	krl;
 	int			err;
 	t_vect		lines;
 
@@ -43,10 +59,10 @@ cl_kernel
 		clGetProgramBuildInfo(cl->prog, cl->dev_id, CL_PROGRAM_BUILD_LOG
 			, LOG_BUFSIZ, buffer, NULL);
 		write(1, buffer, ft_strlen(buffer));
-		return (NULL);
+		return (0);
 	}
-	if (!(krl = clCreateKernel(cl->prog, krlname, &err)))
-		return (NULL);
-	cl->mem = clCreateBuffer(cl->ctxt, 0, alloc_size, NULL, NULL);
-	return (krl);
+	if (!(krl->krl = clCreateKernel(cl->prog, krlname, &err)))
+		return (0);
+	cl_krl_setargs(cl->ctxt, krl);
+	return (1);
 }
