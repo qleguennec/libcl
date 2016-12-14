@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 02:17:46 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/12/05 11:49:53 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/12/14 14:24:19 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 void
 	cl_read
 	(t_cl_info *cl
-	, cl_event *ev
 	, void *data
 	, size_t size)
 {
+	clFinish(cl->cmd_queue);
 	clEnqueueReadBuffer(cl->cmd_queue
 		, cl->mem, CL_TRUE, 0
 		, size, data
-		, (ev ? 1 : 0)
-		, ev
+		, 0
+		, NULL
 		, NULL);
-	free(ev);
 }

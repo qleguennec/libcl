@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/11 18:24:58 by qle-guen          #+#    #+#             */
-/*   Updated: 2016/12/08 16:10:11 by qle-guen         ###   ########.fr       */
+/*   Updated: 2016/12/14 14:05:48 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ cl_event				*cl_krl_exec(t_cl_info *cl, cl_kernel krl, cl_uint work_dim, size_t 
 cl_int					cl_write(t_cl_info *cl, size_t offset, void *data, size_t size);
 cl_kernel				cl_krl_build(t_cl_info *cl, int fd, char *krlname, size_t alloc_size);
 void					cl_init(t_cl_info *cl);
-void					cl_read(t_cl_info *cl, cl_event *ev, void *data, size_t size);
+void					cl_read(t_cl_info *cl, void *data, size_t size);
 
 #endif
