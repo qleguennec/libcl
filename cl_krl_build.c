@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 22:17:19 by qle-guen          #+#    #+#             */
-/*   Updated: 2017/01/20 15:37:56 by qle-guen         ###   ########.fr       */
+/*   Updated: 2017/01/20 17:25:17 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #define LOG_BUFSIZ 20480
 
 static void
-	krl_setargs
+	krl_set_args
 	(cl_context ctxt
 	, t_cl_krl *krl)
 {
@@ -35,11 +35,28 @@ static void
 }
 
 static void
+	krl_get_opts
+	(char *line
+	, char **krlname
+	, char **opts)
+{
+	char	**split;
+
+	split = (char **)STRSPLIT(line, ":");
+	*krlname = split[0];
+	*opts = split[1];
+}
+
+static void
 	krl_source_free
-	(t_vect lines)
+	(t_vect lines
+	, char *krlname
+	, char *opts)
 {
 	size_t	i;
 
+	free(krlname);
+	free(opts);
 	i = 0;
 	while (i < lines.used / 8)
 	{
@@ -53,20 +70,22 @@ int
 	(t_cl_info *cl
 	, t_cl_krl *krl
 	, int fd
-	, char *krlname)
+	, char *optline)
 {
 	char		buffer[LOG_BUFSIZ];
 	int			err;
 	t_vect		lines;
+	char		*krlname;
+	char		*opts;
 
+	krl_get_opts(optline, &krlname, &opts);
 	vect_init(&lines);
 	gnl_lines(fd, &lines, GNL_APPEND_CHAR);
 	cl->prog = clCreateProgramWithSource(cl->ctxt
 		, lines.used / sizeof(void *)
 		, (const char **)lines.data, NULL, NULL);
-	krl_source_free(lines);
 	if ((err = clBuildProgram(cl->prog
-		, cl->dev_num, &cl->dev_id, "-Werror", NULL, NULL)) < 0)
+		, cl->dev_num, &cl->dev_id, opts, NULL, NULL)) < 0)
 	{
 		clGetProgramBuildInfo(cl->prog, cl->dev_id, CL_PROGRAM_BUILD_LOG
 			, LOG_BUFSIZ, buffer, NULL);
@@ -75,6 +94,7 @@ int
 	}
 	if (!(krl->krl = clCreateKernel(cl->prog, krlname, &err)))
 		return (0);
-	krl_setargs(cl->ctxt, krl);
+	krl_source_free(lines, krlname, opts);
+	krl_set_args(cl->ctxt, krl);
 	return (1);
 }
