@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/11 18:24:58 by qle-guen          #+#    #+#             */
-/*   Updated: 2017/01/20 16:36:02 by qle-guen         ###   ########.fr       */
+/*   Updated: 2017/01/21 13:52:40 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ typedef struct			s_cl_krl
 	size_t				nargs;
 }						t_cl_krl;
 
+cl_int					cl_krl_build(t_cl_info *cl, t_cl_krl *krl, int fd, char *optline);
+cl_int					cl_krl_exec(t_cl_info *cl, cl_kernel krl, cl_uint work_dim, size_t *work_size);
 cl_int					cl_write(t_cl_info *cl, t_cl_krl *krl, size_t narg, void *data);
-int						cl_krl_build(t_cl_info *cl, t_cl_krl *krl, int fd, char *optline);
 void					cl_init(t_cl_info *cl);
-void					cl_krl_exec(t_cl_info *cl, cl_kernel krl, cl_uint work_dim, size_t *work_size);
 void					cl_krl_init(t_cl_krl *krl, size_t nargs);
 void					cl_read(t_cl_info *cl, t_cl_krl *krl, size_t narg, void *data);
 

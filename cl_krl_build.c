@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 22:17:19 by qle-guen          #+#    #+#             */
-/*   Updated: 2017/01/20 17:25:17 by qle-guen         ###   ########.fr       */
+/*   Updated: 2017/01/21 13:53:10 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,18 @@ static void
 	}
 }
 
-int
+cl_int
 	cl_krl_build
 	(t_cl_info *cl
 	, t_cl_krl *krl
 	, int fd
 	, char *optline)
 {
-	char		buffer[LOG_BUFSIZ];
-	int			err;
-	t_vect		lines;
 	char		*krlname;
 	char		*opts;
+	char		buffer[LOG_BUFSIZ];
+	cl_int		err;
+	t_vect		lines;
 
 	krl_get_opts(optline, &krlname, &opts);
 	vect_init(&lines);
@@ -90,11 +90,11 @@ int
 		clGetProgramBuildInfo(cl->prog, cl->dev_id, CL_PROGRAM_BUILD_LOG
 			, LOG_BUFSIZ, buffer, NULL);
 		write(1, buffer, ft_strlen(buffer));
-		return (0);
+		return (err);
 	}
 	if (!(krl->krl = clCreateKernel(cl->prog, krlname, &err)))
-		return (0);
+		return (err);
 	krl_source_free(lines, krlname, opts);
 	krl_set_args(cl->ctxt, krl);
-	return (1);
+	return (CL_SUCCESS);
 }
