@@ -6,18 +6,18 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 01:14:42 by qle-guen          #+#    #+#             */
-/*   Updated: 2017/01/23 16:13:22 by qle-guen         ###   ########.fr       */
+/*   Updated: 2017/02/06 10:38:57 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libcl.h"
 
 cl_int
-cl_write
+	cl_write
 	(t_cl_info *cl
-	 , t_cl_krl *krl
-	 , size_t narg
-	 , void *data)
+	, t_cl_krl *krl
+	, size_t narg
+	, void *data)
 {
 	return (clEnqueueWriteBuffer(cl->cmd_queue
 		, krl->args[narg]
