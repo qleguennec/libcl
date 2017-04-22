@@ -6,12 +6,12 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 02:06:54 by qle-guen          #+#    #+#             */
-/*   Updated: 2017/02/06 10:38:40 by qle-guen         ###   ########.fr       */
+/*   Updated: 2017/02/09 14:23:07 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libcl.h"
-#include "../libft/malloc.h"
+#include "malloc.h"
 
 cl_int
 	cl_krl_exec

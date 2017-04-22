@@ -6,7 +6,7 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/03 01:14:42 by qle-guen          #+#    #+#             */
-/*   Updated: 2017/02/06 10:38:57 by qle-guen         ###   ########.fr       */
+/*   Updated: 2017/02/16 13:54:58 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 cl_int
 	cl_write
 	(t_cl_info *cl
-	, t_cl_krl *krl
-	, size_t narg
+	, cl_mem mem
+	, size_t size
 	, void *data)
 {
 	return (clEnqueueWriteBuffer(cl->cmd_queue
-		, krl->args[narg]
+		, mem
 		, CL_TRUE
 		, 0
-		, krl->sizes[narg]
+		, size
 		, data
 		, 0
 		, NULL

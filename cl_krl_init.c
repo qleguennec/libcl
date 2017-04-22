@@ -6,11 +6,11 @@
 /*   By: qle-guen <qle-guen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/14 15:54:21 by qle-guen          #+#    #+#             */
-/*   Updated: 2017/02/06 10:38:27 by qle-guen         ###   ########.fr       */
+/*   Updated: 2017/02/09 14:20:32 by qle-guen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/malloc.h"
+#include "malloc.h"
 #include "libcl.h"
 
 void
